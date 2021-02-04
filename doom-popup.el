@@ -917,7 +917,7 @@ prevent the popup(s) from messing up the UI (or vice versa)."
     ("^\\*eww\\*"  ; `eww' (and used by dash docsets)
      :vslot -11 :size 0.35 :select t)
     ("^\\*info\\*$"  ; `Info-mode'
-     :slot 2 :vslot 2 :size 0.45 :select t)
+     :slot 2 :vslot 2 :size 0.45 :select t))
 
   '(("^\\*Warnings" :vslot 99 :size 0.25)
     ("^\\*Backtrace" :vslot 99 :size 0.4 :quit nil)
