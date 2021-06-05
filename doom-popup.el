@@ -2,6 +2,14 @@
 ;;; custom/packages/popup.el -*- lexical-binding: t; -*-
 (defvar +popup--internal nil)
 
+(defcustom +popup-default-popups t
+  "Whether to configure sensible default popups."
+  :type 'boolean)
+
+(defcustom +popup-all-popups nil
+  "Whether to treat all buffers with asterix (*...*) as popups."
+  :type 'boolean)
+
 (defun +popup--remember (windows)
   "Remember WINDOWS (a list of windows) for later restoration."
   (cl-assert (cl-every #'windowp windows) t)
@@ -891,39 +899,44 @@ prevent the popup(s) from messing up the UI (or vice versa)."
 ;;
 ;; Default popup rules & bootstrap
 
-(set-popup-rules!
-  '(("^\\*Completions" :ignore t)
-    ("^\\*Local variables\\*$"
-     :vslot -1 :slot 1 :size +popup-shrink-to-fit)
-    ("^\\*\\(?:[Cc]ompil\\(?:ation\\|e-Log\\)\\|Messages\\)"
-     :vslot -2 :size 0.3  :autosave t :quit t :ttl nil)
-    ("^\\*\\(?:doom \\|Pp E\\)"  ; transient buffers (no interaction required)
-     :vslot -3 :size +popup-shrink-to-fit :autosave t :select ignore :quit t :ttl 0)
-    ("^\\*doom:"  ; editing buffers (interaction required)
-     :vslot -4 :size 0.35 :autosave t :select t :modeline t :quit nil :ttl t)
-    ("^\\*doom:\\(?:v?term\\|e?shell\\)-popup"  ; editing buffers (interaction required)
-     :vslot -5 :size 0.35 :select t :modeline nil :quit nil :ttl nil)
-    ("^\\*\\(?:Wo\\)?Man "
-     :vslot -6 :size 0.45 :select t :quit t :ttl 0)
-    ("^\\*Calc"
-     :vslot -7 :side bottom :size 0.4 :select t :quit nil :ttl 0)
-    ("^\\*Customize"
-     :slot 2 :side right :size 0.5 :select t :quit nil)
-    ("^ \\*undo-tree\\*"
-     :slot 2 :side left :size 20 :select t :quit t)
-    ;; `help-mode', `helpful-mode'
-    ("^\\*[Hh]elp"
-     :slot 2 :vslot -8 :size 0.35 :select t)
-    ("^\\*eww\\*"  ; `eww' (and used by dash docsets)
-     :vslot -11 :size 0.35 :select t)
-    ("^\\*info\\*$"  ; `Info-mode'
-     :slot 2 :vslot 2 :size 0.45 :select t))
+(if +popup-all-popups
+    (set-popup-rule! '("^\\*")))
 
-  '(("^\\*Warnings" :vslot 99 :size 0.25)
-    ("^\\*Backtrace" :vslot 99 :size 0.4 :quit nil)
-    ("^\\*CPU-Profiler-Report "    :side bottom :vslot 100 :slot 1 :height 0.4 :width 0.5 :quit nil)
-    ("^\\*Memory-Profiler-Report " :side bottom :vslot 100 :slot 2 :height 0.4 :width 0.5 :quit nil)
-    ("^\\*\\(?:Proced\\|timer-list\\|Process List\\|Abbrevs\\|Output\\|Occur\\|unsent mail\\)\\*" :ignore t)))
+(if +popup-default-popups
+    (set-popup-rules!
+
+      '(("^\\*Completions" :ignore t)
+        ("^\\*Local variables\\*$"
+         :vslot -1 :slot 1 :size +popup-shrink-to-fit)
+        ("^\\*\\(?:[Cc]ompil\\(?:ation\\|e-Log\\)\\|Messages\\)"
+         :vslot -2 :size 0.3  :autosave t :quit t :ttl nil)
+        ("^\\*\\(?:doom \\|Pp E\\)"  ; transient buffers (no interaction required)
+         :vslot -3 :size +popup-shrink-to-fit :autosave t :select ignore :quit t :ttl 0)
+        ("^\\*doom:"  ; editing buffers (interaction required)
+         :vslot -4 :size 0.35 :autosave t :select t :modeline t :quit nil :ttl t)
+        ("^\\*doom:\\(?:v?term\\|e?shell\\)-popup"  ; editing buffers (interaction required)
+         :vslot -5 :size 0.35 :select t :modeline nil :quit nil :ttl nil)
+        ("^\\*\\(?:Wo\\)?Man "
+         :vslot -6 :size 0.45 :select t :quit t :ttl 0)
+        ("^\\*Calc"
+         :vslot -7 :side bottom :size 0.4 :select t :quit nil :ttl 0)
+        ("^\\*Customize"
+         :slot 2 :side right :size 0.5 :select t :quit nil)
+        ("^ \\*undo-tree\\*"
+         :slot 2 :side left :size 20 :select t :quit t)
+        ;; `help-mode', `helpful-mode'
+        ("^\\*[Hh]elp"
+         :slot 2 :vslot -8 :size 0.35 :select t)
+        ("^\\*eww\\*"  ; `eww' (and used by dash docsets)
+         :vslot -11 :size 0.35 :select t)
+        ("^\\*info\\*$"  ; `Info-mode'
+         :slot 2 :vslot 2 :size 0.45 :select t))
+
+      '(("^\\*Warnings" :vslot 99 :size 0.25)
+        ("^\\*Backtrace" :vslot 99 :size 0.4 :quit nil)
+        ("^\\*CPU-Profiler-Report "    :side bottom :vslot 100 :slot 1 :height 0.4 :width 0.5 :quit nil)
+        ("^\\*Memory-Profiler-Report " :side bottom :vslot 100 :slot 2 :height 0.4 :width 0.5 :quit nil)
+        ("^\\*\\(?:Proced\\|timer-list\\|Process List\\|Abbrevs\\|Output\\|Occur\\|unsent mail\\)\\*" :ignore t))))
 
 (add-hook '+popup-buffer-mode-hook #'+popup-adjust-fringes-h)
 (add-hook '+popup-buffer-mode-hook #'+popup-adjust-margins-h)
