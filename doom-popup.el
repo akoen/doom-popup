@@ -900,7 +900,7 @@ prevent the popup(s) from messing up the UI (or vice versa)."
 ;; Default popup rules & bootstrap
 
 (if +popup-all-popups
-    (set-popup-rule! '("^\\*")))
+    (set-popup-rule! "^\\*"))
 
 (if +popup-default-popups
     (set-popup-rules!
