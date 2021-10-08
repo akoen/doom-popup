@@ -828,7 +828,6 @@ adjustment.")
   :global t
   :keymap +popup-mode-map
   (cond (+popup-mode
-         (add-hook 'my--escape-hook #'+popup-close-on-escape-h 'append)
          (setq +popup--old-display-buffer-alist display-buffer-alist
                display-buffer-alist +popup--display-buffer-alist
                window--sides-inhibit-check t)
