@@ -833,7 +833,6 @@ adjustment.")
   :global t
   :keymap +popup-mode-map
   (cond (+popup-mode
-         (add-hook 'my--escape-hook #'+popup-close-on-escape-h 'append)
          (setq +popup--old-display-buffer-alist display-buffer-alist
                display-buffer-alist +popup--display-buffer-alist
                window--sides-inhibit-check t)
@@ -937,7 +936,7 @@ prevent the popup(s) from messing up the UI (or vice versa)."
         ("^\\*info\\*$"  ; `Info-mode'
          :slot 2 :vslot 2 :size 0.45 :select t))
 
-      '(("^\\*Warnings" :vslot 99 :size 0.25)
+      '(("^\\*Warnings" :vslot 99 :size 0.25 :ttl nil)
         ("^\\*Backtrace" :vslot 99 :size 0.4 :quit nil)
         ("^\\*CPU-Profiler-Report "    :side bottom :vslot 100 :slot 1 :height 0.4 :width 0.5 :quit nil)
         ("^\\*Memory-Profiler-Report " :side bottom :vslot 100 :slot 2 :height 0.4 :width 0.5 :quit nil)
