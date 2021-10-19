@@ -792,6 +792,11 @@ Modifying this has no effect, unless done before ui/popup loads.")
     (reusable-frames . visible))
   "The default alist for `display-buffer-alist' rules.")
 
+;; REVIEW: Setting no-other-window t prevents windmove from selecting popup
+;; windows. Doom hacks around this [^1], but that is ugly. Either remove
+;; this behaviour or (setq windmove-allow-all-windows t)
+;;
+;; [^1] https://github.com/hlissner/doom-emacs/blob/5b3f52f5fb98cc3af653b043d809254cebe04e6a/modules/ui/popup/README.org#hacks)
 (defvar +popup-default-parameters
   '((transient . t)   ; remove later
     (quit . t)        ; remove later
