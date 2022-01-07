@@ -800,8 +800,7 @@ Modifying this has no effect, unless done before ui/popup loads.")
 (defvar +popup-default-parameters
   '((transient . t)   ; remove later
     (quit . t)        ; remove later
-    (select . ignore) ; remove later
-    (no-other-window . t))
+    (select . ignore)) ; remove later
   "The default window parameters.")
 
 (defvar +popup-margin-width 1
